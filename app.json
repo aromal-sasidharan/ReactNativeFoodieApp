@@ -1,0 +1,12 @@
+{
+  "name": "FoodieReactTS",
+  "displayName": "FoodieReactTS",
+  "expo": {
+    "name": "FoodieReactTS",
+    "slug": "FoodieReactTS",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
