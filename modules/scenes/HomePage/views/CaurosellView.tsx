@@ -1,10 +1,10 @@
 
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import React from 'react';
-import {AbstractUser} from "../../../domain/entity/User";
+import {AbstractCuisine} from "../../../domain/Entities/Cusine";
 
 interface CaurosellViewProps {
-    users: AbstractUser[]
+    cusines: AbstractCuisine[]
     style: ViewStyle
     isLoaded: Boolean
 }
@@ -13,7 +13,7 @@ interface CaurosellViewProps {
 function CaurosellView(props: CaurosellViewProps) {
     return <View style={[styles.container, props.style]}>
         {
-            props.isLoaded ? (<Text>My name is {props.users[0].name}</Text>) : <Text>Loading... </Text>
+            props.isLoaded ? (<Text>My name is {props.cusines[0].name}</Text>) : <Text>Loading... </Text>
         }
     </View>
 }

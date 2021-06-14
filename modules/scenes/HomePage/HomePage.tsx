@@ -1,30 +1,30 @@
 import React, {Component} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import {AbstractUser, AbstractUserNumbers} from '../../domain/entity/User';
+import {AbstractCuisine, AbstractCuisineDish, AbstractDish} from '../../domain/Entities/Cusine';
 import CaurosellView from './views/CaurosellView';
-import PhoneNumbersListView from "./views/PhoneNumbersListView"
+import DishesListView from "./views/DishesListView"
 
 type HomePageProps = {
 
 }
 type HomePageState = {
-    users?: AbstractUser[]
-    userNumbers?: AbstractUserNumbers
+    cusines?: AbstractCuisine[]
+    dishes?: AbstractDish[]
 }
 
 class HomePage extends Component<HomePageProps, HomePageState> {
     state: HomePageState = {
-        users: undefined,
-        userNumbers: undefined
+        cusines: undefined,
+        dishes: undefined
     }
     async componentDidMount() {
         console.log("componentDidMount")
         try {
-            let users: AbstractUser[] = await this.loadUser()
-            let numbers = await this.loadNumbersOf("2")
+            let cusines: AbstractCuisine[] = await this.loadCusines()
+            let dishes = await this.loadDishesFor("2")
             this.setState({
-                users: users,
-                userNumbers : numbers,
+                cusines: cusines,
+                dishes : dishes,
             })
         }
         catch (e) {
@@ -34,15 +34,16 @@ class HomePage extends Component<HomePageProps, HomePageState> {
 
         }
     }
-    loadNumbersOf(id:string): AbstractUserNumbers | undefined {
-        const json = require("../../../assets/user_phone_number.json")
-        const userNumbers: Array<AbstractUserNumbers> = JSON.parse(JSON.stringify(json))
-        const userNumber = userNumbers.filter(x => x.id === id)
-        return userNumber[0]
+    loadDishesFor(cusineid:string): AbstractDish[] | undefined {
+        const json = require("../../../assets/Dishes.json")
+        const cusineDishes: Array<AbstractCuisineDish> = JSON.parse(JSON.stringify(json))
+        const cusineDish = cusineDishes.filter(x => x.id === cusineid)
+        return cusineDish[0].dishes
     }
-    loadUser(): AbstractUser[] {
-        const json = require("../../../assets/user.json")
-        return JSON.parse(JSON.stringify(json))
+    loadCusines(): AbstractCuisine[] {
+        const json = require("../../../assets/Cuisine.json")
+        const cusines: Array<AbstractCuisine> = JSON.parse(JSON.stringify(json))
+        return cusines
     }
     render() {
         
@@ -51,11 +52,11 @@ class HomePage extends Component<HomePageProps, HomePageState> {
         <SafeAreaView style={styles.container} >
             <CaurosellView
                 style={{ flex: 1 }}
-                users={[]}
+                cusines={[]}
                 isLoaded={false}
             />
-            <PhoneNumbersListView
-                numbers={this.state.userNumbers?.numbers ?? []}
+            <DishesListView
+                dishes={this.state.dishes ?? []}
                 style={{ flex: 2, backgroundColor: "darkorange" }}
             />
         </SafeAreaView>
