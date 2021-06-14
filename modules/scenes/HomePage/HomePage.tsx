@@ -42,8 +42,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
     }
     loadUser(): AbstractUser[] {
         const json = require("../../../assets/user.json")
-        const users: Array<AbstractUser> = JSON.parse(JSON.stringify(json));
-        return users
+        return JSON.parse(JSON.stringify(json))
     }
     render() {
         
