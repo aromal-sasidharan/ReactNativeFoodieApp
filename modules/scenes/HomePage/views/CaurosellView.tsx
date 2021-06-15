@@ -1,12 +1,10 @@
 
 import {
     ColorValue,
-    Dimensions,
     Image,
     LayoutChangeEvent,
     StyleSheet,
     Text,
-    TouchableWithoutFeedback,
     View,
     ViewStyle
 } from 'react-native';
@@ -42,6 +40,7 @@ class CaurosellView extends Component<CaurosellViewProps, CaurosellViewState> {
         this.props.onItemCliked(cusine)
     }
     render() {
+        
         console.log("CaurosellView rendering")
         return <View style={[styles.container, this.props.style]}
                      onLayout={this.onPageLayout}
@@ -62,7 +61,7 @@ class CaurosellView extends Component<CaurosellViewProps, CaurosellViewState> {
         return (
             <View style={[styles.child, {width:width, height:height }]}>
                 { (item.imageUrl !== undefined ) && <Image source={{uri:item.imageUrl}} style={{width:width, height:height }}/>}
-                <View style={styles.bottom}>
+                <View style={[styles.bottom,{width:width}]}>
                     <Text style={styles.bottomChild}>{item.name}</Text>
                 </View>
             </View>
@@ -74,15 +73,22 @@ class CaurosellView extends Component<CaurosellViewProps, CaurosellViewState> {
 
 const styles = StyleSheet.create({
     bottomChild: {
-        bottom:0,
-        position: 'absolute',
-        color:"white",
-        fontSize: 20,
-        fontWeight: "bold"
+        color:"black",
+        fontSize: 30,
+        fontWeight: "bold",
+        alignItems: "flex-start"
+       
     },
     bottom: {
-        flex: 1,
-        justifyContent: 'center',
+        bottom:0,
+        paddingLeft:10,
+        paddingRight:10,
+        paddingTop:0,
+        paddingBottom:0,
+        margin:0,
+        position: 'absolute',
+        backgroundColor:"rgba(255, 255, 255, 0.8)",
+        marginBottom:40
     },
     container: {
         backgroundColor: 'white',
