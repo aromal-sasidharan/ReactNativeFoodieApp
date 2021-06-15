@@ -1,35 +1,61 @@
 import {AbstractDish, AbstractCuisine, AbstractCuisineDish} from "../Entities/Cusine";
+import {Observable} from "rxjs";
 
-interface AbstractCusineListWorker {
-    output?: AbstractCusineListWorkeOuput
-    getDishesForCusineId(id: string): void
-}
-interface AbstractCusineListWorkeOuput {
-    onDishesFetched(cusine: AbstractCuisineDish): void
+interface AbstractCusinesWorker {
+    allCusines(): Observable<AbstractCuisine[] | undefined>
 }
 
-interface AbstractDishListInteractorOutput {
-    onLoadDishesNumber(dishes: AbstractDish[]): void
+interface AbstractCusinesInteractor {
+    worker: AbstractCusinesWorker
+    loadAllCusines(): void
+    onLoadCusines(): Observable<AbstractCuisine[]>
+    onError(): Observable<Error>
+
 }
 
-interface AbstractDishListInteractor extends AbstractCusineListWorkeOuput{
-    output?: AbstractDishListInteractorOutput
+interface AbstractDishListWorker {
+    dishesForCusineId(id: string): Observable<AbstractCuisineDish | undefined>
+}
+
+interface AbstractDishListInteractor {
+    worker: AbstractDishListWorker
     loadDishesFor(cusine: AbstractCuisine): void
+    onLoadDishes(): Observable<AbstractDish[]>
+    onError(): Observable<Error>
+
 }
 
 interface AbstractDishListPresenterOutput {
-    onLoadPhoneNumbers(dishes: AbstractDish[]): void
+    onLoadDishes(dishes: AbstractDish[]): void
 }
-interface  AbstractDishListPresenter extends  AbstractDishListInteractorOutput {
+
+interface  AbstractDishListPresenter {
     interactor?: AbstractDishListInteractor
     output?: AbstractDishListPresenterOutput
     loadDishesFor(cusine: AbstractCuisine): void
 }
 
+interface AbstractCusinesPresenterOutput {
+    onLoadCusines(cusines: AbstractCuisine[]): void
+}
 
-export {AbstractDishListInteractor,
-    AbstractDishListInteractorOutput,
+interface  AbstractCusinesPresenter {
+    interactor?: AbstractCusinesInteractor
+    output?: AbstractCusinesPresenterOutput
+    loadAllCusines(): void
+}
+
+
+
+
+export {
+    AbstractDishListInteractor,
     AbstractDishListPresenter,
-    AbstractDishListPresenterOutput
+    AbstractDishListPresenterOutput,
+    AbstractDishListWorker,
+    AbstractCusinesWorker,
+    AbstractCusinesInteractor,
+    AbstractCusinesPresenter,
+    AbstractCusinesPresenterOutput
 }
 

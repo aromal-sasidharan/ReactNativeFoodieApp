@@ -9,7 +9,7 @@ interface DishListViewItem {
 
 const Item = ({item}: DishListViewItem) => (
     <View style={styles.item}>
-        <Text style={styles.title}>Phone: {item.name}</Text>
+        <Text style={styles.title}>Dish: {item.name}</Text>
     </View>
 );
 

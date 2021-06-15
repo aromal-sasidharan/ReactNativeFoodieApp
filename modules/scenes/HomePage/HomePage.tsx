@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, Context} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {AbstractCuisine, AbstractCuisineDish, AbstractDish} from '../../domain/Entities/Cusine';
 import CaurosellView from './views/CaurosellView';
 import DishesListView from "./views/DishesListView"
+import {AbstractHomePagePresenter, AbstractHomePageView, HomePagePresenter} from "./presenter/HomePagePresenter";
 
 type HomePageProps = {
 
@@ -12,48 +13,31 @@ type HomePageState = {
     dishes?: AbstractDish[]
 }
 
-class HomePage extends Component<HomePageProps, HomePageState> {
+class HomePage extends Component<HomePageProps, HomePageState> implements AbstractHomePageView{
     state: HomePageState = {
         cusines: undefined,
         dishes: undefined
     }
-    async componentDidMount() {
-        console.log("componentDidMount")
-        try {
-            let cusines: AbstractCuisine[] = await this.loadCusines()
-            let dishes = await this.loadDishesFor("2")
-            this.setState({
-                cusines: cusines,
-                dishes : dishes,
-            })
-        }
-        catch (e) {
-            console.log(e)
-        }
-        finally {
+    presenter?: AbstractHomePagePresenter
+    constructor(props: HomePageProps, context:Context<any>) {
+        super(props, context)
+        this.presenter = HomePagePresenter.configure(this)
+    }
+    componentDidMount() {
+        this.presenter?.loadAllCuisines()
+    }
 
-        }
-    }
-    loadDishesFor(cusineid:string): AbstractDish[] | undefined {
-        const json = require("../../../assets/Dishes.json")
-        const cusineDishes: Array<AbstractCuisineDish> = JSON.parse(JSON.stringify(json))
-        const cusineDish = cusineDishes.filter(x => x.id === cusineid)
-        return cusineDish[0].dishes
-    }
-    loadCusines(): AbstractCuisine[] {
-        const json = require("../../../assets/Cuisine.json")
-        const cusines: Array<AbstractCuisine> = JSON.parse(JSON.stringify(json))
-        return cusines
-    }
     render() {
         
         return (
  
         <SafeAreaView style={styles.container} >
+
             <CaurosellView
                 style={{ flex: 1 }}
-                cusines={[]}
+                cusines={this.state.cusines ?? []}
                 isLoaded={false}
+                onItemCliked={item=>{this.presenter?.loadCuisineSelected(item)}}
             />
             <DishesListView
                 dishes={this.state.dishes ?? []}
@@ -64,12 +48,24 @@ class HomePage extends Component<HomePageProps, HomePageState> {
 
 
     }
+
+    onLoadDishes(dishes: AbstractDish[]): void {
+        this.setState({
+            dishes: dishes
+        })
+    }
+
+    onLoadCusines(cusines: AbstractCuisine[]): void {
+        this.setState({
+            cusines: cusines
+        })
+    }
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: 'red',
+        backgroundColor: 'green',
     },
 });
 export default HomePage
