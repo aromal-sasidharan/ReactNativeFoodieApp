@@ -1,6 +1,6 @@
 import {StyleSheet, FlatList, View, Text, ViewStyle} from "react-native";
 import React from "react";
-import {AbstractDish} from "../../../domain/Entities/Cusine";
+import {AbstractDish} from "./../../../domain/Entities/Cusine";
 
 
 interface DishListViewItem {

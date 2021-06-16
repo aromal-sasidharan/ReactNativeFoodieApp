@@ -1,11 +1,10 @@
-import { AbstractCusinesPresenter, AbstractCusinesWorker, AbstractCusinesInteractor, AbstractDishListInteractor, AbstractDishListPresenter, AbstractDishListWorker } from "../../domain/UseCases/CusineListUseCase"
-import CusinesWorker from "../../microservices/CusinesWorker"
-import DishListWorker from "../../microservices/DishListWorker"
-import {CusinePresenter, CusineInteractor} from "./presenter/CusinePresenter"
-import { DishListInteractor, DishListPresenter } from "./presenter/DishListPresenter"
-import { AbstractHomePageView, AbstractHomePagePresenter, HomePagePresenter } from "./presenter/HomePagePresenter"
-
-
+import { AbstractCusinesPresenter, AbstractCusinesWorker, AbstractCusinesInteractor, AbstractDishListInteractor, AbstractDishListPresenter, AbstractDishListWorker } from "../domain/UseCases/HomePage/CusineListUseCase"
+import CusinesWorker from "./../microservices/CusinesWorker"
+import DishListWorker from "./../microservices/DishListWorker"
+import { AbstractHomePageView, AbstractHomePagePresenter } from "./../domain/UseCases/HomePage/HomePageUseCase"
+import {CusinePresenter, CusineInteractor} from "./../scenes/HomePage/presenter/CusinePresenter"
+import { DishListInteractor, DishListPresenter } from "./../scenes/HomePage/presenter/DishListPresenter"
+import {HomePagePresenter } from "./../scenes/HomePage/presenter/HomePagePresenter"
 
 class HomePageConfigurator {
     private static shared:HomePageConfigurator

@@ -1,4 +1,4 @@
-import {AbstractDish, AbstractCuisine, AbstractCuisineDish} from "../Entities/Cusine";
+import {AbstractDish, AbstractCuisine, AbstractCuisineDish} from "./../../Entities/Cusine";
 import {Observable} from "rxjs";
 
 interface AbstractCusinesWorker {

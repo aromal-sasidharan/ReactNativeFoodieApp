@@ -1,23 +1,7 @@
-import {
-    AbstractCusinesPresenter,
-    AbstractCusinesPresenterOutput,
-    AbstractDishListPresenter,
-    AbstractDishListPresenterOutput
-} from "../../../domain/UseCases/CusineListUseCase";
-import {AbstractCuisine, AbstractDish} from "../../../domain/Entities/Cusine";
+import { AbstractCuisine, AbstractDish } from "../../../domain/Entities/Cusine"
+import { AbstractCusinesPresenter, AbstractDishListPresenter } from "../../../domain/UseCases/HomePage/CusineListUseCase"
+import { AbstractHomePagePresenter, AbstractHomePageView } from "../../../domain/UseCases/HomePage/HomePageUseCase"
 
-interface AbstractHomePageView {
-    onLoadDishes(dishes: AbstractDish[]): void
-    onLoadCusines(cusines: AbstractCuisine[]): void
-}
-
-interface AbstractHomePagePresenter extends AbstractDishListPresenterOutput, AbstractCusinesPresenterOutput {
-    dishListPresenter?: AbstractDishListPresenter
-    cusinePresenter?: AbstractCusinesPresenter
-    output?:AbstractHomePageView
-    loadAllCuisines(): void
-    loadCuisineSelected(cuisine: AbstractCuisine): void
-}
 
 class HomePagePresenter implements  AbstractHomePagePresenter {
     dishListPresenter?: AbstractDishListPresenter
@@ -52,7 +36,4 @@ class HomePagePresenter implements  AbstractHomePagePresenter {
     }
 }
 
-export {
-    HomePagePresenter,
-    AbstractHomePageView,
-    AbstractHomePagePresenter}
+export {HomePagePresenter}

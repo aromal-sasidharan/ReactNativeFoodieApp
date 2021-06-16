@@ -14,11 +14,10 @@ import {
     AbstractDishListPresenter,
     AbstractDishListPresenterOutput,
     AbstractDishListWorker
-} from "../../../domain/UseCases/CusineListUseCase";
+} from "../../../domain/UseCases/HomePage/CusineListUseCase";
 
-import {AbstractCuisine, AbstractDish} from "../../../domain/Entities/Cusine";
+import {AbstractCuisine, AbstractDish} from "./../../../domain/Entities/Cusine";
 import {map, observeOn, subscribeOn, tap} from "rxjs/operators";
-import DishListWorker from "../../../microservices/DishListWorker";
 
 
 class DishListInteractor implements AbstractDishListInteractor {
