@@ -3,8 +3,7 @@ import {SafeAreaView, StyleSheet} from 'react-native';
 import {AbstractCuisine, AbstractCuisineDish, AbstractDish} from '../../domain/Entities/Cusine';
 import CaurosellView from './views/CaurosellView';
 import DishesListView from "./views/DishesListView"
-import {AbstractHomePagePresenter, AbstractHomePageView, HomePagePresenter} from "./presenter/HomePagePresenter";
-import HomePageConfigurator from './HomePageConfigurator';
+import { AbstractHomePageView, AbstractHomePagePresenter } from '../../domain/UseCases/HomePage/HomePageUseCase';
 
 type HomePageProps = {
     presenter?:((view: AbstractHomePageView) => AbstractHomePagePresenter)

@@ -3,11 +3,11 @@ import {
     AbstractCusinesPresenter,
     AbstractCusinesPresenterOutput,
     AbstractCusinesWorker
-} from "../../../domain/UseCases/CusineListUseCase";
-import {AbstractCuisine} from "../../../domain/Entities/Cusine";
-import {asyncScheduler, BehaviorSubject, Observable, queueScheduler, Subject, Subscription} from "rxjs";
-import {observeOn, subscribeOn} from "rxjs/operators";
-import CusinesWorker from "../../../microservices/CusinesWorker";
+} from "./../../../domain/UseCases/HomePage/CusineListUseCase";
+import {AbstractCuisine} from "./../../../domain/Entities/Cusine";
+import {BehaviorSubject, Observable, queueScheduler, Subject, Subscription} from "rxjs";
+import {observeOn} from "rxjs/operators";
+
 
 
 class CusineInteractor implements AbstractCusinesInteractor {

@@ -1,5 +1,5 @@
-import {AbstractDishListWorker} from "../domain/UseCases/CusineListUseCase";
-import {AbstractCuisineDish} from "../domain/Entities/Cusine";
+import {AbstractDishListWorker} from "./../domain/UseCases/HomePage/CusineListUseCase";
+import {AbstractCuisineDish} from "./../domain/Entities/Cusine";
 import {Observable, Observer} from "rxjs";
 
 
