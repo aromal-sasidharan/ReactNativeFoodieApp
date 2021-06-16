@@ -5,9 +5,6 @@ import {
     AbstractDishListPresenterOutput
 } from "../../../domain/UseCases/CusineListUseCase";
 import {AbstractCuisine, AbstractDish} from "../../../domain/Entities/Cusine";
-import DishListPresenter from "./DishListPresenter";
-import CusinePresenter from "./CusinePresenter";
-
 
 interface AbstractHomePageView {
     onLoadDishes(dishes: AbstractDish[]): void
@@ -51,17 +48,7 @@ class HomePagePresenter implements  AbstractHomePagePresenter {
     }
     onLoadCusines(cusines: AbstractCuisine[]): void {
         this.output?.onLoadCusines(cusines)
-        if (cusines.length >= 1) {
-            this.dishListPresenter?.loadDishesFor(cusines[0])
-        }
-    }
-    static configure(view: AbstractHomePageView): AbstractHomePagePresenter {
-        const dishListPresenter: AbstractDishListPresenter = DishListPresenter.configure()
-        const cuisinePresenter: AbstractCusinesPresenter = CusinePresenter.configure()
-        return  new HomePagePresenter(
-            cuisinePresenter,
-            dishListPresenter,
-            view)
+        cusines[0] !== undefined && this.dishListPresenter?.loadDishesFor(cusines[0])
     }
 }
 

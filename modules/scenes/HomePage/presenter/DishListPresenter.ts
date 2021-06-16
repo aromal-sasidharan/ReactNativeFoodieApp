@@ -84,12 +84,6 @@ class DishListPresenter implements AbstractDishListPresenter {
         console.log("Load dishes for", cusine.name)
         this.interactor?.loadDishesFor(cusine)
     }
-
-    static configure(): AbstractDishListPresenter {
-        const worker: AbstractDishListWorker = new DishListWorker()
-        const interactor:AbstractDishListInteractor = new DishListInteractor(worker)
-        return new DishListPresenter(interactor)
-    }
 }
 
-export default DishListPresenter
+export {DishListPresenter, DishListInteractor}

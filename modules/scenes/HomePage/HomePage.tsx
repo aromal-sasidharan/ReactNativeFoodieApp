@@ -4,9 +4,10 @@ import {AbstractCuisine, AbstractCuisineDish, AbstractDish} from '../../domain/E
 import CaurosellView from './views/CaurosellView';
 import DishesListView from "./views/DishesListView"
 import {AbstractHomePagePresenter, AbstractHomePageView, HomePagePresenter} from "./presenter/HomePagePresenter";
+import HomePageConfigurator from './HomePageConfigurator';
 
 type HomePageProps = {
-
+    presenter:((view: AbstractHomePageView) => AbstractHomePagePresenter)
 }
 type HomePageState = {
     cusines?: AbstractCuisine[]
@@ -19,9 +20,9 @@ class HomePage extends Component<HomePageProps, HomePageState> implements Abstra
         dishes: undefined
     }
     presenter?: AbstractHomePagePresenter
-    constructor(props: HomePageProps, context:Context<any>) {
-        super(props, context)
-        this.presenter = HomePagePresenter.configure(this)
+    constructor(props: HomePageProps) {
+        super(props)
+        this.presenter = props.presenter(this) 
     }
     componentDidMount() {
         this.presenter?.loadAllCuisines()

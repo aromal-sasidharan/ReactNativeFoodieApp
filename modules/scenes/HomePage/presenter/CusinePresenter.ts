@@ -64,10 +64,6 @@ class CusinePresenter implements AbstractCusinesPresenter {
     loadAllCusines(): void {
         this.interactor.loadAllCusines()
     }
-    static configure(): AbstractCusinesPresenter {
-        const worker: AbstractCusinesWorker = new CusinesWorker()
-        const interactor:AbstractCusinesInteractor = new CusineInteractor(worker)
-        return new CusinePresenter(interactor)
-    }
+   
 }
-export default CusinePresenter
+export {CusinePresenter, CusineInteractor}
