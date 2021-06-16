@@ -35,13 +35,11 @@ class CaurosellView extends Component<CaurosellViewProps, CaurosellViewState> {
         const { width, height } = event.nativeEvent.layout;
         this.setState({width, height})
     }
-    _onItemClicked(cusine: AbstractCuisine) {
+    private onItemClicked(cusine: AbstractCuisine) {
     
         this.props.onItemCliked(cusine)
     }
     render() {
-        
-        console.log("CaurosellView rendering")
         return <View style={[styles.container, this.props.style]}
                      onLayout={this.onPageLayout}
         >
@@ -49,8 +47,11 @@ class CaurosellView extends Component<CaurosellViewProps, CaurosellViewState> {
                 // autoplay
                 // autoplayDelay={2}
                 // autoplayLoop
-                onChangeIndex={item => {this._onItemClicked(this.props.cusines[item.index])}}
-                showPagination
+                // showPagination
+                onChangeIndex={item => {
+                    console.log("index", item.index)
+                    this.onItemClicked(this.props.cusines[item.index])
+                }}
                 data={this.props.cusines}
                 renderItem={({ item }) => this.renderCaurosellCell(this.state.width, this.state.height, item)}
             />

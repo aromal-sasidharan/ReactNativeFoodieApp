@@ -7,7 +7,7 @@ import {AbstractHomePagePresenter, AbstractHomePageView, HomePagePresenter} from
 import HomePageConfigurator from './HomePageConfigurator';
 
 type HomePageProps = {
-    presenter:((view: AbstractHomePageView) => AbstractHomePagePresenter)
+    presenter?:((view: AbstractHomePageView) => AbstractHomePagePresenter)
 }
 type HomePageState = {
     cusines?: AbstractCuisine[]
@@ -22,6 +22,7 @@ class HomePage extends Component<HomePageProps, HomePageState> implements Abstra
     presenter?: AbstractHomePagePresenter
     constructor(props: HomePageProps) {
         super(props)
+        if (props.presenter)
         this.presenter = props.presenter(this) 
     }
     componentDidMount() {

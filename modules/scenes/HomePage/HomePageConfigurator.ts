@@ -8,17 +8,27 @@ import { AbstractHomePageView, AbstractHomePagePresenter, HomePagePresenter } fr
 
 
 class HomePageConfigurator {
-    static configureCusinePresenter(): AbstractCusinesPresenter {
+    private static shared:HomePageConfigurator
+    public static instance(): HomePageConfigurator {
+        if(!this.shared) {
+            this.shared = new HomePageConfigurator()
+        }
+        return this.shared
+    }
+
+    constructor() {}
+
+    configureCusinePresenter(): AbstractCusinesPresenter {
         const worker: AbstractCusinesWorker = new CusinesWorker()
         const interactor:AbstractCusinesInteractor = new CusineInteractor(worker)
         return new CusinePresenter(interactor)
     }
-    static configureDishPresenter(): AbstractDishListPresenter {
+    configureDishPresenter(): AbstractDishListPresenter {
         const worker: AbstractDishListWorker = new DishListWorker()
         const interactor:AbstractDishListInteractor = new DishListInteractor(worker)
         return new DishListPresenter(interactor)
     }
-    static configureHomePagePresenter() : ((view: AbstractHomePageView) => AbstractHomePagePresenter ){
+    configureHomePagePresenter() : ((view: AbstractHomePageView) => AbstractHomePagePresenter ){
         return (view) => { 
         const dishListPresenter: AbstractDishListPresenter = this.configureDishPresenter()
         const cuisinePresenter: AbstractCusinesPresenter = this.configureCusinePresenter()
