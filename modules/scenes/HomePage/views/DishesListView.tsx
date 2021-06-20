@@ -1,4 +1,4 @@
-import {StyleSheet, FlatList, View, Text, ViewStyle} from "react-native";
+import {StyleSheet, FlatList, View, Text, ViewStyle, ActivityIndicator} from "react-native";
 import React from "react";
 import {AbstractDish} from "./../../../domain/Entities/Cusine";
 
@@ -16,10 +16,16 @@ const Item = ({item}: DishListViewItem) => (
 interface DishListViewProp {
     style: ViewStyle
     dishes?: AbstractDish[]
+    isLoading?: boolean
 }
 
 function DishesListView(props: DishListViewProp) {
 
+    if (props.isLoading) {
+        return  (<View style={[props.style,{justifyContent:"center"}]}>
+            <ActivityIndicator size={"large"}/>
+        </View>)
+    }
     if (props.dishes === null || (props.dishes?.length ?? 0) === 0) {
         return (
                 <View style={[props.style,{alignContent:"center", alignItems:"center", justifyContent:"center"}]}>
@@ -27,6 +33,7 @@ function DishesListView(props: DishListViewProp) {
                 </View>
         )
     }
+
     return <View style={props.style}>
 
         <FlatList

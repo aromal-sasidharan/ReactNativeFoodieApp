@@ -5,6 +5,9 @@ import { AbstractHomePageView, AbstractHomePagePresenter } from "../domain/UseCa
 import { CusinePresenter, CusineInteractor } from "../scenes/HomePage/presenter/CusinePresenter"
 import { DishListInteractor, DishListPresenter } from "../scenes/HomePage/presenter/DishListPresenter"
 import { HomePagePresenter } from "../scenes/HomePage/presenter/HomePagePresenter"
+import {HomePage, HomePageProps} from "../scenes/HomePage/HomePage";
+import React from "react";
+import CusineCauroselViewModelMapper from "../scenes/HomePage/mappers/CusineCauroselViewModelMapper";
 class HomePageConfigurator {
     private static shared: HomePageConfigurator
     public static instance(): HomePageConfigurator {
@@ -19,7 +22,7 @@ class HomePageConfigurator {
     configureCusinePresenter(): AbstractCusinesPresenter {
         const worker: AbstractCusinesWorker = new CusinesWorker()
         const interactor: AbstractCusinesInteractor = new CusineInteractor(worker)
-        return new CusinePresenter(interactor)
+        return new CusinePresenter(interactor, new CusineCauroselViewModelMapper())
     }
     configureDishPresenter(): AbstractDishListPresenter {
         const worker: AbstractDishListWorker = new DishListWorker()
@@ -37,4 +40,9 @@ class HomePageConfigurator {
         }
     }
 }
-export default HomePageConfigurator
+function homeScene(props: HomePageProps) {
+    return  <HomePage {...props}
+    presenter={HomePageConfigurator.instance().configureHomePagePresenter()}/>
+}
+
+export {HomePageConfigurator, homeScene}

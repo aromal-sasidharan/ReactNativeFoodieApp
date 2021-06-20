@@ -11,12 +11,15 @@ import {
 import React, {Component} from 'react';
 import {AbstractCuisine} from "../../../domain/Entities/Cusine";
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
+import { TouchableHighlight } from 'react-native';
+import {AbstractCusineCauroselViewModel} from "../../../domain/UseCases/HomePage/ViewModels/CusineCauroselViewModel";
 
 interface CaurosellViewProps {
-    cusines: AbstractCuisine[]
+    cusines: AbstractCusineCauroselViewModel[]
     style: ViewStyle
     isLoaded: Boolean
-    onItemCliked: (cusine:AbstractCuisine) => void
+    onItemCliked: (cusine:AbstractCusineCauroselViewModel) => void
+    onItemChanged: (cusine:AbstractCusineCauroselViewModel) => void
 }
 interface CaurosellViewState {
    width: number
@@ -39,6 +42,10 @@ class CaurosellView extends Component<CaurosellViewProps, CaurosellViewState> {
     
         this.props.onItemCliked(cusine)
     }
+    private onItemChanged(cusine: AbstractCuisine) {
+    
+        this.props.onItemChanged(cusine)
+    }
     render() {
         return <View style={[styles.container, this.props.style]}
                      onLayout={this.onPageLayout}
@@ -49,23 +56,24 @@ class CaurosellView extends Component<CaurosellViewProps, CaurosellViewState> {
                 // autoplayLoop
                 // showPagination
                 onChangeIndex={item => {
-                    console.log("index", item.index)
-                    this.onItemClicked(this.props.cusines[item.index])
+                    this.onItemChanged(this.props.cusines[item.index])
                 }}
                 data={this.props.cusines}
                 renderItem={({ item }) => this.renderCaurosellCell(this.state.width, this.state.height, item)}
             />
         </View>
     }
-    renderCaurosellCell(width:number, height:number, item: AbstractCuisine) {
+    renderCaurosellCell(width:number, height:number, item: AbstractCusineCauroselViewModel) {
 
         return (
+            <TouchableHighlight onPress={() => this.onItemClicked(item)} >
             <View style={[styles.child, {width:width, height:height }]}>
-                { (item.imageUrl !== undefined ) && <Image source={{uri:item.imageUrl}} style={{width:width, height:height }}/>}
+                { (item.image !== undefined ) && <Image source={{uri:item.image}} style={{width:width, height:height }}/>}
                 <View style={[styles.bottom,{width:width}]}>
                     <Text style={styles.bottomChild}>{item.name}</Text>
                 </View>
             </View>
+            </TouchableHighlight>
         )
     }
 }

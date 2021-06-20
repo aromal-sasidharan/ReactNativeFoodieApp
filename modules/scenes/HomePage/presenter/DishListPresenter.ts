@@ -1,13 +1,4 @@
-import {
-    animationFrameScheduler, asapScheduler,
-    asyncScheduler,
-    BehaviorSubject,
-    Observable,
-    queueScheduler,
-    Subject,
-    Subscriber,
-    Subscription
-} from "rxjs"
+import {BehaviorSubject, Observable, queueScheduler, Subject, Subscription} from "rxjs"
 
 import {
     AbstractDishListInteractor,
@@ -17,7 +8,7 @@ import {
 } from "../../../domain/UseCases/HomePage/CusineListUseCase";
 
 import {AbstractCuisine, AbstractDish} from "./../../../domain/Entities/Cusine";
-import {map, observeOn, subscribeOn, tap} from "rxjs/operators";
+import {map, subscribeOn, tap} from "rxjs/operators";
 
 
 class DishListInteractor implements AbstractDishListInteractor {
@@ -80,7 +71,6 @@ class DishListPresenter implements AbstractDishListPresenter {
     }
 
     loadDishesFor(cusine: AbstractCuisine): void {
-        console.log("Load dishes for", cusine.name)
         this.interactor?.loadDishesFor(cusine)
     }
 }

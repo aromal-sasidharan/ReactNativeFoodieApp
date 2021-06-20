@@ -1,6 +1,7 @@
 import {AbstractDishListWorker} from "./../domain/UseCases/HomePage/CusineListUseCase";
 import {AbstractCuisineDish} from "./../domain/Entities/Cusine";
 import {Observable, Observer} from "rxjs";
+import { delay } from "rxjs/operators";
 
 
 class DishListWorker implements AbstractDishListWorker{
@@ -18,6 +19,7 @@ class DishListWorker implements AbstractDishListWorker{
                 observer.complete()
             }
         })
+        .pipe(delay(4000))
     }
 }
 

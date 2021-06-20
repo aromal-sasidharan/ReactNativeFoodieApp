@@ -1,6 +1,10 @@
 import { AbstractCuisine, AbstractDish } from "../../../domain/Entities/Cusine"
 import { AbstractCusinesPresenter, AbstractDishListPresenter } from "../../../domain/UseCases/HomePage/CusineListUseCase"
 import { AbstractHomePagePresenter, AbstractHomePageView } from "../../../domain/UseCases/HomePage/HomePageUseCase"
+import {
+    AbstractCusineCauroselViewModel,
+    HomeCuisineCauroselViewModel
+} from "../../../domain/UseCases/HomePage/ViewModels/CusineCauroselViewModel";
 
 
 class HomePagePresenter implements  AbstractHomePagePresenter {
@@ -23,16 +27,22 @@ class HomePagePresenter implements  AbstractHomePagePresenter {
          this.cusinePresenter?.loadAllCusines()
     }
 
-    loadCuisineSelected(cuisine: AbstractCuisine) {
-        this.dishListPresenter?.loadDishesFor(cuisine)
+    loadCuisineSelected(cuisine: AbstractCusineCauroselViewModel) {
+        this.output?.onLoadDishes([])
+        if (cuisine instanceof HomeCuisineCauroselViewModel && cuisine.entity) {
+            this.output?.showDishesLoding(true)
+            this.dishListPresenter?.loadDishesFor(cuisine.entity)
+        }
     }
 
     onLoadDishes(dishes: AbstractDish[]): void {
         this.output?.onLoadDishes(dishes)
+        this.output?.showDishesLoding(false)
     }
-    onLoadCusines(cusines: AbstractCuisine[]): void {
+    onLoadCusines(cusines: AbstractCusineCauroselViewModel[]): void {
         this.output?.onLoadCusines(cusines)
-        cusines[0] !== undefined && this.dishListPresenter?.loadDishesFor(cusines[0])
+        if (cusines[0])
+            this.loadCuisineSelected(cusines[0])
     }
 }
 

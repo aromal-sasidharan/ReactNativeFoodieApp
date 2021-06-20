@@ -6,7 +6,9 @@ import {
 } from "./../../../domain/UseCases/HomePage/CusineListUseCase";
 import {AbstractCuisine} from "./../../../domain/Entities/Cusine";
 import {BehaviorSubject, Observable, queueScheduler, Subject, Subscription} from "rxjs";
-import {observeOn} from "rxjs/operators";
+import {map, observeOn} from "rxjs/operators";
+import {AbstractHomeCuisineCauroselViewModelMapper} from "../../../domain/UseCases/HomePage/ViewModels/HomeCuisineCauroselViewModelMapper";
+import {AbstractCusineCauroselViewModel} from "../../../domain/UseCases/HomePage/ViewModels/CusineCauroselViewModel";
 
 
 
@@ -42,8 +44,10 @@ class CusinePresenter implements AbstractCusinesPresenter {
     interactor: AbstractCusinesInteractor
     output?: AbstractCusinesPresenterOutput
     subscription?: Subscription
-    constructor(interactor: AbstractCusinesInteractor) {
+    mapper?:AbstractHomeCuisineCauroselViewModelMapper
+    constructor(interactor: AbstractCusinesInteractor, mapper: AbstractHomeCuisineCauroselViewModelMapper) {
         this.interactor = interactor
+        this.mapper = mapper
         this.setupSubsriber()
     }
 
@@ -51,7 +55,7 @@ class CusinePresenter implements AbstractCusinesPresenter {
         this.subscription = new Subscription()
         const sb1 = this.interactor?.onLoadCusines()
             .pipe(
-                observeOn(queueScheduler)
+                map(value => this.mapper?.mapAllAbstractCuisineToViewModel(value) ?? [])
             )
             .subscribe(value => {
                 this.output?.onLoadCusines(value)

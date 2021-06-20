@@ -1,5 +1,7 @@
 import {AbstractDish, AbstractCuisine, AbstractCuisineDish} from "./../../Entities/Cusine";
 import {Observable} from "rxjs";
+import {AbstractCusineCauroselViewModel} from "./ViewModels/CusineCauroselViewModel";
+import {AbstractHomeCuisineCauroselViewModelMapper} from "./ViewModels/HomeCuisineCauroselViewModelMapper";
 
 interface AbstractCusinesWorker {
     allCusines(): Observable<AbstractCuisine[] | undefined>
@@ -36,12 +38,13 @@ interface  AbstractDishListPresenter {
 }
 
 interface AbstractCusinesPresenterOutput {
-    onLoadCusines(cusines: AbstractCuisine[]): void
+    onLoadCusines(cusines: AbstractCusineCauroselViewModel[]): void
 }
 
 interface  AbstractCusinesPresenter {
     interactor?: AbstractCusinesInteractor
     output?: AbstractCusinesPresenterOutput
+    mapper?: AbstractHomeCuisineCauroselViewModelMapper
     loadAllCusines(): void
 }
 

@@ -1,5 +1,4 @@
-import ConfiguredView from './modules/ConfiguredView';
+import AppNavigator from './modules/AppNavigator';
 export default function App() {
-   return ConfiguredView.home()
+   return AppNavigator.shared().rootScene()
 }
-
