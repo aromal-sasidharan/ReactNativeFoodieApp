@@ -37,7 +37,7 @@ class HomePageConfigurator {
                 dishListPresenter)
     }
 }
-function homeScene(props: HomePageProps) {
+function homeScene(props?: HomePageProps) {
     return  <HomePage  {...props}
     presenter={HomePageConfigurator.instance().configureHomePagePresenter()}/>
 }

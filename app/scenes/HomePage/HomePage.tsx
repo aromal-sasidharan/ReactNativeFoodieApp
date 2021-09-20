@@ -5,7 +5,7 @@ import DishesListView from "app/scenes/HomePage/views/DishesListView";
 import { Navigation } from "app/Utils/NavigationUtils";
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 
 type HomePageProps = {
@@ -32,8 +32,7 @@ class HomePage extends Component<HomePageProps, {}> {
         
         return (
  
-        <View style={styles.container} >
-
+        <SafeAreaView style={styles.container} >
             <CaurosellView
                 style={{ flex: 1 }}
                 cusines={this.presenter?.cusines ?? []}
@@ -46,7 +45,7 @@ class HomePage extends Component<HomePageProps, {}> {
                 isLoading={this.presenter?.isLoading ?? false}
                 style={{ flex: 2, backgroundColor: "darkorange" }}
             />
-        </View>
+        </SafeAreaView>
         )
 
 
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: 'green',
+        // backgroundColor: 'green',
     },
 });
 

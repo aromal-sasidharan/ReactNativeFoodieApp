@@ -1,13 +1,9 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
 import {homeScene} from 'app/configurators/HomePageConfigurator';
 import AppViews from 'app/configurators/AppViews';
-import DishListPage from 'app/scenes/DishListPage/DishListPage';
+import DishListPage from 'app/scenes/DishListPage/DishListPage';;
 
-
-const Stack = createStackNavigator()
 class AppNavigator {
     private static instance: AppNavigator
     public static shared(): AppNavigator {
@@ -18,16 +14,7 @@ class AppNavigator {
     }
 
     rootScene() {
-        return <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name={AppViews.home}>
-                    {props => homeScene(props)}
-                </Stack.Screen>
-                <Stack.Screen name={AppViews.detail}>
-                    {props => <DishListPage {...props}/> }
-                </Stack.Screen>
-            </Stack.Navigator>
-        </NavigationContainer>
+        return homeScene()
     }
 }
    {/* <Stack.Screen name="Home">
