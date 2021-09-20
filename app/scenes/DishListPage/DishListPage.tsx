@@ -5,10 +5,7 @@ import {Navigation} from "app/Utils/NavigationUtils";
 interface DishListPageProps {
     navigation: Navigation
 }
-interface DishListPageState {
-
-}
-class DishListPage extends React.Component<DishListPageProps,DishListPageState> {
+class DishListPage extends React.Component<DishListPageProps,{}> {
     navigation: Navigation
     constructor(props: DishListPageProps) {
         super(props)

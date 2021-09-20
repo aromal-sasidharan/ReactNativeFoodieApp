@@ -7,7 +7,10 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "~41.0.1",
+    "@expo/metro-config": "^0.1.84",
+    "@react-navigation/native": "^6.0.2",
+    "@react-navigation/native-stack": "^6.1.0",
+    "expo": "~40.0.1",
     "expo-splash-screen": "~0.10.2",
     "expo-updates": "~0.5.4",
     "mobx": "^6.3.3",
@@ -17,6 +20,7 @@
     "react-native": "~0.63.4",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-reanimated": "~2.1.0",
+    "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "~3.0.0",
     "react-native-swiper-flatlist": "^3.0.14",
     "react-native-unimodules": "~0.13.3",

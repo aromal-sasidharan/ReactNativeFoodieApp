@@ -5,7 +5,8 @@ import DishesListView from "app/scenes/HomePage/views/DishesListView";
 import { Navigation } from "app/Utils/NavigationUtils";
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import {StyleSheet} from "react-native";
 
 
 type HomePageProps = {
