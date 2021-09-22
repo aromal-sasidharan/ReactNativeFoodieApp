@@ -2,7 +2,8 @@ import AppViews from 'app/configurators/AppViews';
 import AbstractHomePagePresenter from 'app/domain/UseCases/HomePage/HomePageUseCase';
 import CaurosellView from "app/scenes/HomePage/views/CaurosellView";
 import DishesListView from "app/scenes/HomePage/views/DishesListView";
-import { Navigation } from "app/Utils/NavigationUtils";
+import {NavigationProp} from "@react-navigation/native";
+
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { SafeAreaView } from 'react-native';
@@ -10,13 +11,13 @@ import {StyleSheet} from "react-native";
 
 
 type HomePageProps = {
-    navigation?: Navigation
+    navigation?: NavigationProp<any>;
     presenter?: AbstractHomePagePresenter
 }
 
 @observer
 class HomePage extends Component<HomePageProps, {}> {
-    navigation?: Navigation
+    navigation?: NavigationProp<any>
     presenter?: AbstractHomePagePresenter
     constructor(props: HomePageProps) {
         super(props)
