@@ -5,7 +5,6 @@ import AbstractHomePagePresenter from "app/domain/UseCases/HomePage/HomePageUseC
 import { CusinePresenter, CusineInteractor } from "app/scenes/HomePage/presenter/CusinePresenter"
 import { DishListInteractor, DishListPresenter } from "app/scenes/HomePage/presenter/DishListPresenter"
 import { HomePagePresenter } from "app/scenes/HomePage/presenter/HomePagePresenter"
-import {HomePage, HomePageProps} from "app/scenes/HomePage/HomePage";
 import React from "react";
 import CusineCauroselViewModelMapper from "app/scenes/HomePage/mappers/CusineCauroselViewModelMapper";
 class HomePageConfigurator {
@@ -37,9 +36,7 @@ class HomePageConfigurator {
                 dishListPresenter)
     }
 }
-function homeScene(props?: HomePageProps) {
-    return  <HomePage  {...props}
-    presenter={HomePageConfigurator.instance().configureHomePagePresenter()}/>
-}
 
-export {HomePageConfigurator, homeScene}
+
+
+export default HomePageConfigurator

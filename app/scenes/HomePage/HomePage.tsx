@@ -4,24 +4,26 @@ import CaurosellView from "app/scenes/HomePage/views/CaurosellView";
 import DishesListView from "app/scenes/HomePage/views/DishesListView";
 import {NavigationProp} from "@react-navigation/native";
 
-import { observer } from 'mobx-react';
+import {inject, observer} from 'mobx-react';
 import React, { Component } from 'react';
 import { SafeAreaView } from 'react-native';
 import {StyleSheet} from "react-native";
-
+import {PresentersEnum} from "app/configurators/Presenters"
 
 type HomePageProps = {
     navigation?: NavigationProp<any>;
-    presenter?: AbstractHomePagePresenter
+    homePresenter?: AbstractHomePagePresenter
 }
-
+@inject(PresentersEnum.homePresenter)
 @observer
 class HomePage extends Component<HomePageProps, {}> {
     navigation?: NavigationProp<any>
     presenter?: AbstractHomePagePresenter
     constructor(props: HomePageProps) {
         super(props)
-        this.presenter = props.presenter
+        console.log("props are")
+        console.log(this.props)
+        this.presenter = props.homePresenter
         this.navigation = props.navigation 
     }
     componentDidMount() {
