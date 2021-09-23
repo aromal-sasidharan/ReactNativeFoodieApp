@@ -1,9 +1,11 @@
 import HomePageConfigurator from "app/configurators/HomePageConfigurator";
+import React from "react";
+import AbstractHomePagePresenter from "app/domain/UseCases/HomePage/HomePageUseCase";
 
-const presenters = {
-    homePresenter: HomePageConfigurator.instance().configureHomePagePresenter()
+
+const HomePagePresenterContext = React.createContext<AbstractHomePagePresenter | null>(null)
+const homePagePresenter = HomePageConfigurator.instance().presenter()
+export {
+    homePagePresenter,
+    HomePagePresenterContext
 }
-enum PresentersEnum {
-    homePresenter = "homePresenter"
-}
-export {presenters,PresentersEnum}

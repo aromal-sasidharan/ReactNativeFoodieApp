@@ -28,7 +28,7 @@ class HomePageConfigurator {
         const interactor: AbstractDishListInteractor = new DishListInteractor(worker)
         return new DishListPresenter(interactor)
     }
-    configureHomePagePresenter(): AbstractHomePagePresenter {
+    presenter(): AbstractHomePagePresenter {
             const dishListPresenter: AbstractDishListPresenter = this.configureDishPresenter()
             const cuisinePresenter: AbstractCusinesPresenter = this.configureCusinePresenter()
             return new HomePagePresenter(
@@ -36,7 +36,5 @@ class HomePageConfigurator {
                 dishListPresenter)
     }
 }
-
-
 
 export default HomePageConfigurator
