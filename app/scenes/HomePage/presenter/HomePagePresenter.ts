@@ -1,48 +1,50 @@
-import { action, makeObservable, observable } from "mobx";
-import { AbstractCuisine, AbstractDish } from "app/domain/Entities/Cusine"
-import { AbstractCusinesPresenter, AbstractDishListPresenter } from "app/domain/UseCases/HomePage/CusineListUseCase"
-import  AbstractHomePagePresenter from "app/domain/UseCases/HomePage/HomePageUseCase"
+import {action} from "mobx";
+import {AbstractDish} from "app/domain/Entities/Cusine"
+import {AbstractCusinesPresenter, AbstractDishListPresenter} from "app/domain/UseCases/HomePage/CusineListUseCase"
+import AbstractHomePagePresenter from "app/domain/UseCases/HomePage/HomePageUseCase"
 import {
     AbstractCusineCauroselViewModel,
     HomeCuisineCauroselViewModel
 } from "app/domain/UseCases/HomePage/ViewModels/CusineCauroselViewModel";
+import {AbstractHomePageStore} from "app/stores/HomePageStore";
 
 
-class HomePagePresenter implements  AbstractHomePagePresenter {
+class HomePagePresenter implements AbstractHomePagePresenter {
     dishListPresenter?: AbstractDishListPresenter
     cusinePresenter?: AbstractCusinesPresenter
+    store?: AbstractHomePageStore
+
     constructor(
-                cusinePresenter: AbstractCusinesPresenter,
-                disListPresenter: AbstractDishListPresenter,
-                ) {
+        store: AbstractHomePageStore | undefined,
+        cusinePresenter: AbstractCusinesPresenter,
+        disListPresenter: AbstractDishListPresenter,
+    ) {
         this.dishListPresenter = disListPresenter
         this.cusinePresenter = cusinePresenter
         this.dishListPresenter.output = this
         this.cusinePresenter.output = this
-        makeObservable(this)
+        this.store = store
     }
-    @observable isLoading: boolean = false
-    @observable dishes: AbstractDish[] = []
-    @observable cusines: AbstractCusineCauroselViewModel[] = []
 
     loadAllCuisines() {
-         this.cusinePresenter?.loadAllCusines()
+        this.cusinePresenter?.loadAllCusines()
     }
 
-    @action loadCuisineSelected(cuisine: AbstractCusineCauroselViewModel) {
-        this.dishes = []
+    loadCuisineSelected(cuisine: AbstractCusineCauroselViewModel) {
+        this.store?.setDishes([])
         if (cuisine instanceof HomeCuisineCauroselViewModel && cuisine.entity) {
-            this.isLoading = true
+            this.store?.setIsCusinesLoading(true)
             this.dishListPresenter?.loadDishesFor(cuisine.entity)
         }
     }
 
-    @action onLoadDishes(dishes: AbstractDish[]): void {
-        this.dishes = dishes
-        this.isLoading = false
+    onLoadDishes(dishes: AbstractDish[]): void {
+        this.store?.setDishes(dishes)
+        this.store?.setIsCusinesLoading(false)
     }
-    @action onLoadCusines(cusines: AbstractCusineCauroselViewModel[]): void {
-        this.cusines = cusines
+
+    onLoadCusines(cusines: AbstractCusineCauroselViewModel[]): void {
+        this.store?.setCusines(cusines)
         if (cusines[0])
             this.loadCuisineSelected(cusines[0])
     }

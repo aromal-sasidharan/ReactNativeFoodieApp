@@ -6,7 +6,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AppViews from "app/configurators/AppViews";
 import DishListPage from "app/scenes/DishListPage/DishListPage";
 import {HomePage} from "app/scenes/HomePage/HomePage";
-import {homePagePresenter, HomePagePresenterContext} from './configurators/Presenters';
+import {HomePageStoreContext, homePageStoreInstance} from './stores/StoreContext';
+import HomePageConfigurator from "app/configurators/HomePageConfigurator";
 
 
 const Stack = createNativeStackNavigator();
@@ -29,9 +30,15 @@ class AppNavigator {
                                       { props =>
                                           (
 
-                                              <HomePagePresenterContext.Provider value={homePagePresenter} >
-                                                    <HomePage {...props}/>
-                                              </HomePagePresenterContext.Provider>
+                                              <HomePageStoreContext.Provider value={homePageStoreInstance} >
+                                                  <HomePageStoreContext.Consumer >
+                                                      { store =>
+                                                          <HomePage {...props}
+                                                                    presenter={HomePageConfigurator.instance().presenterWith(store)}
+                                                          />
+                                                      }
+                                                  </HomePageStoreContext.Consumer>
+                                              </HomePageStoreContext.Provider>
                                              
                                           )
                                       }

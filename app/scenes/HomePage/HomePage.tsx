@@ -5,22 +5,27 @@ import {NavigationProp} from "@react-navigation/native";
 import {observer} from 'mobx-react';
 import React, {Component} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import {HomePagePresenterContext} from 'app/configurators/Presenters';
+import AbstractHomePagePresenter from "app/domain/UseCases/HomePage/HomePageUseCase";
+import {AbstractHomePageStore} from "app/stores/HomePageStore";
 
 type HomePageProps = {
     navigation?: NavigationProp<any>;
+    presenter?: AbstractHomePagePresenter
+    store?: AbstractHomePageStore
 }
 
 @observer
 class HomePage extends Component<HomePageProps, {}> {
-    static contextType =  HomePagePresenterContext
+    // static contextType =  HomePagePresenterContext
     navigation?: NavigationProp<any>
+    presenter?: AbstractHomePagePresenter
     constructor(props: HomePageProps) {
         super(props)
         this.navigation = props.navigation
+        this.presenter = props.presenter
     }
     componentDidMount() {
-        this.context?.loadAllCuisines()
+        this.presenter?.loadAllCuisines()
     }
     navigateToDetailPage() {
         this.navigation?.navigate(AppViews.detail)
@@ -31,14 +36,14 @@ class HomePage extends Component<HomePageProps, {}> {
         <SafeAreaView style={styles.container} >
             <CaurosellView
                 style={{ flex: 1 }}
-                cusines={this.context?.cusines ?? []}
+                cusines={this.presenter?.store?.cusines ?? []}
                 isLoaded={false}
                 onItemCliked={item=>{this.navigateToDetailPage()}}
-                onItemChanged={item=>{this.context?.loadCuisineSelected(item)}}
+                onItemChanged={item=>{this.presenter?.loadCuisineSelected(item)}}
             />
             <DishesListView
-                dishes={this.context?.dishes ?? []}
-                isLoading={this.context?.isLoading ?? false}
+                dishes={this.presenter?.store?.dishes ?? []}
+                isLoading={this.presenter?.store?.isCusinesLoading ?? false}
                 style={{ flex: 2, backgroundColor: "darkorange" }}
             />
         </SafeAreaView>
