@@ -6,45 +6,42 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AppViews from "app/configurators/AppViews";
 import DishListPage from "app/scenes/DishListPage/DishListPage";
 import {HomePage} from "app/scenes/HomePage/HomePage";
-import {HomePageStoreContext, homePageStoreInstance} from './stores/StoreContext';
 import HomePageConfigurator from "app/configurators/HomePageConfigurator";
 
 
 const Stack = createNativeStackNavigator();
+
 class AppNavigator {
     private static instance: AppNavigator
+
     public static shared(): AppNavigator {
         if (!this.instance) {
             this.instance = new AppNavigator()
         }
         return this.instance
     }
+
     constructor() {
     }
+
     rootScene() {
         return (
             <SafeAreaProvider>
                 <NavigationContainer>
                     <Stack.Navigator>
                         <Stack.Screen name={AppViews.home}>
-                                      { props =>
-                                          (
+                            {props =>
+                                (
 
-                                              <HomePageStoreContext.Provider value={homePageStoreInstance} >
-                                                  <HomePageStoreContext.Consumer >
-                                                      { store =>
-                                                          <HomePage {...props}
-                                                                    presenter={HomePageConfigurator.instance().presenterWith(store)}
-                                                          />
-                                                      }
-                                                  </HomePageStoreContext.Consumer>
-                                              </HomePageStoreContext.Provider>
-                                             
-                                          )
-                                      }
+                                    <HomePage {...props}
+                                              presenter={HomePageConfigurator.instance().presenter()}
+                                    />
+
+                                )
+                            }
                         </Stack.Screen>
                         <Stack.Screen name={AppViews.detail}>
-                            { props => <DishListPage {...props}/> }
+                            {props => <DishListPage {...props}/>}
                         </Stack.Screen>
                     </Stack.Navigator>
                 </NavigationContainer>
@@ -54,7 +51,9 @@ class AppNavigator {
 
     }
 }
-   {/* <Stack.Screen name="Home">
+
+{/* <Stack.Screen name="Home">
                     {props => <HomeScreen {...props} extraData={someData} />}
-                </Stack.Screen> */}
+                </Stack.Screen> */
+}
 export default AppNavigator

@@ -7,7 +7,7 @@ import { DishListInteractor, DishListPresenter } from "app/scenes/HomePage/prese
 import { HomePagePresenter } from "app/scenes/HomePage/presenter/HomePagePresenter"
 import React from "react";
 import CusineCauroselViewModelMapper from "app/scenes/HomePage/mappers/CusineCauroselViewModelMapper";
-import {AbstractHomePageStore} from "app/stores/HomePageStore";
+import {AbstractHomePageStore, HomePageStore} from "app/stores/HomePageStore";
 class HomePageConfigurator {
     private static shared: HomePageConfigurator
     public static instance(): HomePageConfigurator {
@@ -29,10 +29,11 @@ class HomePageConfigurator {
         const interactor: AbstractDishListInteractor = new DishListInteractor(worker)
         return new DishListPresenter(interactor)
     }
-    presenterWith(store: AbstractHomePageStore | undefined): AbstractHomePagePresenter {
+    presenter(): AbstractHomePagePresenter {
+            const homePageStore: AbstractHomePageStore = new HomePageStore()
             const dishListPresenter: AbstractDishListPresenter = this.configureDishPresenter()
             const cuisinePresenter: AbstractCusinesPresenter = this.configureCusinePresenter()
-            return new HomePagePresenter(store,
+            return new HomePagePresenter(homePageStore,
                 cuisinePresenter,
                 dishListPresenter)
     }
