@@ -6,52 +6,65 @@ import {observer} from 'mobx-react';
 import React, {Component} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import AbstractHomePagePresenter from "app/domain/UseCases/HomePage/HomePageUseCase";
-import {AbstractHomePageStore} from "app/stores/HomePageStore";
+import {HomePageContext, IHomePageContext} from "app/ContextTypes";
+import {HomePagePresenterCompletion} from "app/configurators/HomePageConfigurator";
 
-type HomePageProps = {
-    navigation?: NavigationProp<any>;
-    presenter?: AbstractHomePagePresenter
-    store?: AbstractHomePageStore
+
+interface HomePageProps {
+    navigation?: NavigationProp<any>
+    presenter: HomePagePresenterCompletion
 }
 
 @observer
-class HomePage extends Component<HomePageProps, {}> {
-    // static contextType =  HomePagePresenterContext
+class HomePage extends Component<HomePageProps> {
+    static contextType = HomePageContext
     navigation?: NavigationProp<any>
     presenter?: AbstractHomePagePresenter
-    constructor(props: HomePageProps) {
+    myContext?: IHomePageContext
+
+    constructor(props: HomePageProps,
+                context: IHomePageContext // Eureka i didn't find in documentation
+    ) {
         super(props)
         this.navigation = props.navigation
-        this.presenter = props.presenter
+        this.presenter = props.presenter(context)
+        this.myContext = context
     }
+
     componentDidMount() {
         this.presenter?.loadAllCuisines()
     }
+
     navigateToDetailPage() {
         this.navigation?.navigate(AppViews.detail)
     }
+
     render() {
         return (
-
-        <SafeAreaView style={styles.container} >
-            <CaurosellView
-                style={{ flex: 1 }}
-                cusines={this.presenter?.store?.cusines ?? []}
-                isLoaded={false}
-                onItemCliked={item=>{this.navigateToDetailPage()}}
-                onItemChanged={item=>{this.presenter?.loadCuisineSelected(item)}}
-            />
-            <DishesListView
-                dishes={this.presenter?.store?.dishes ?? []}
-                isLoading={this.presenter?.store?.isCusinesLoading ?? false}
-                style={{ flex: 2, backgroundColor: "darkorange" }}
-            />
-        </SafeAreaView>
+            <SafeAreaView style={styles.container}>
+                <CaurosellView
+                    style={{flex: 1}}
+                    cusines={this.presenter?.store?.cusines ?? []}
+                    isLoaded={false}
+                    onItemCliked={item => {
+                        this.navigateToDetailPage()
+                    }}
+                    onItemChanged={item => {
+                        this.presenter?.loadCuisineSelected(item)
+                    }}
+                />
+                <DishesListView
+                    dishes={this.presenter?.store?.dishes ?? []}
+                    isLoading={this.presenter?.store?.isCusinesLoading ?? false}
+                    style={{flex: 2, backgroundColor: "darkorange"}}
+                />
+            </SafeAreaView>
         )
 
 
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -60,5 +73,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export { HomePage, HomePageProps };
+export {HomePage, HomePageProps};
 

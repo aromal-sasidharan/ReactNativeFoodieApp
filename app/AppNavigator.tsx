@@ -6,7 +6,9 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AppViews from "app/configurators/AppViews";
 import DishListPage from "app/scenes/DishListPage/DishListPage";
 import {HomePage} from "app/scenes/HomePage/HomePage";
-import HomePageConfigurator from "app/configurators/HomePageConfigurator";
+import {HomePageConfigurator} from "app/configurators/HomePageConfigurator";
+import {HomePageContext} from 'app/ContextTypes';
+import {HomePageStore} from "app/stores/HomePageStore";
 
 
 const Stack = createNativeStackNavigator();
@@ -14,14 +16,15 @@ const Stack = createNativeStackNavigator();
 class AppNavigator {
     private static instance: AppNavigator
 
+    constructor() {
+
+    }
+
     public static shared(): AppNavigator {
         if (!this.instance) {
             this.instance = new AppNavigator()
         }
         return this.instance
-    }
-
-    constructor() {
     }
 
     rootScene() {
@@ -32,11 +35,11 @@ class AppNavigator {
                         <Stack.Screen name={AppViews.home}>
                             {props =>
                                 (
-
-                                    <HomePage {...props}
-                                              presenter={HomePageConfigurator.instance().presenter()}
-                                    />
-
+                                    <HomePageContext.Provider value={{mainStore: new HomePageStore()}}>
+                                        <HomePage {...props}
+                                                  presenter={HomePageConfigurator.presenter()}
+                                        />
+                                    </HomePageContext.Provider>
                                 )
                             }
                         </Stack.Screen>

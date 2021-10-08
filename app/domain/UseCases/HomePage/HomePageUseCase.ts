@@ -12,7 +12,9 @@ interface AbstractHomePagePresenter extends AbstractDishListPresenterOutput, Abs
     dishListPresenter?: AbstractDishListPresenter
     cusinePresenter?: AbstractCusinesPresenter
     store?: AbstractHomePageStore
+
     loadAllCuisines(): void
+
     loadCuisineSelected(cuisine: AbstractCusineCauroselViewModel): void
 }
 

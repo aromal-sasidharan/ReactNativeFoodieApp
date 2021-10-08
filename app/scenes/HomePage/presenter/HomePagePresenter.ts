@@ -1,4 +1,3 @@
-import {action} from "mobx";
 import {AbstractDish} from "app/domain/Entities/Cusine"
 import {AbstractCusinesPresenter, AbstractDishListPresenter} from "app/domain/UseCases/HomePage/CusineListUseCase"
 import AbstractHomePagePresenter from "app/domain/UseCases/HomePage/HomePageUseCase"
@@ -8,22 +7,21 @@ import {
 } from "app/domain/UseCases/HomePage/ViewModels/CusineCauroselViewModel";
 import {AbstractHomePageStore} from "app/stores/HomePageStore";
 
-
 class HomePagePresenter implements AbstractHomePagePresenter {
     dishListPresenter?: AbstractDishListPresenter
     cusinePresenter?: AbstractCusinesPresenter
     store?: AbstractHomePageStore
 
     constructor(
-        store: AbstractHomePageStore | undefined,
+        store: AbstractHomePageStore,
         cusinePresenter: AbstractCusinesPresenter,
         disListPresenter: AbstractDishListPresenter,
     ) {
+        this.store = store
         this.dishListPresenter = disListPresenter
         this.cusinePresenter = cusinePresenter
         this.dishListPresenter.output = this
         this.cusinePresenter.output = this
-        this.store = store
     }
 
     loadAllCuisines() {
@@ -50,4 +48,4 @@ class HomePagePresenter implements AbstractHomePagePresenter {
     }
 }
 
-export {HomePagePresenter}
+export default HomePagePresenter

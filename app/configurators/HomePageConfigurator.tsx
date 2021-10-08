@@ -1,42 +1,54 @@
-import { AbstractCusinesPresenter, AbstractCusinesWorker, AbstractCusinesInteractor, AbstractDishListInteractor, AbstractDishListPresenter, AbstractDishListWorker } from "app/domain/UseCases/HomePage/CusineListUseCase"
+import {
+    AbstractCusinesInteractor,
+    AbstractCusinesPresenter,
+    AbstractCusinesWorker,
+    AbstractDishListInteractor,
+    AbstractDishListPresenter,
+    AbstractDishListWorker
+} from "app/domain/UseCases/HomePage/CusineListUseCase"
 import CusinesWorker from "app/microservices/CusinesWorker"
 import DishListWorker from "app/microservices/DishListWorker"
 import AbstractHomePagePresenter from "app/domain/UseCases/HomePage/HomePageUseCase"
-import { CusinePresenter, CusineInteractor } from "app/scenes/HomePage/presenter/CusinePresenter"
-import { DishListInteractor, DishListPresenter } from "app/scenes/HomePage/presenter/DishListPresenter"
-import { HomePagePresenter } from "app/scenes/HomePage/presenter/HomePagePresenter"
+import {CusineInteractor, CusinePresenter} from "app/scenes/HomePage/presenter/CusinePresenter"
+import {DishListInteractor, DishListPresenter} from "app/scenes/HomePage/presenter/DishListPresenter"
+import HomePagePresenter from "app/scenes/HomePage/presenter/HomePagePresenter"
 import React from "react";
 import CusineCauroselViewModelMapper from "app/scenes/HomePage/mappers/CusineCauroselViewModelMapper";
-import {AbstractHomePageStore, HomePageStore} from "app/stores/HomePageStore";
+import {IHomePageContext} from "app/ContextTypes";
+import {AbstractHomePageStore} from "app/stores/HomePageStore";
+
+type HomePagePresenterCompletion = (context?: IHomePageContext) => AbstractHomePagePresenter | undefined
+
 class HomePageConfigurator {
-    private static shared: HomePageConfigurator
-    public static instance(): HomePageConfigurator {
-        if (!this.shared) {
-            this.shared = new HomePageConfigurator()
+
+    static presenter(): HomePagePresenterCompletion {
+        return (context?: IHomePageContext) => {
+            if (context && context.mainStore)
+                return HomePageConfigurator.configureHomePresenter(context.mainStore)
+            return undefined
         }
-        return this.shared
     }
 
-    constructor() { }
-
-    configureCusinePresenter(): AbstractCusinesPresenter {
+    private static configureCusinePresenter(): AbstractCusinesPresenter {
         const worker: AbstractCusinesWorker = new CusinesWorker()
         const interactor: AbstractCusinesInteractor = new CusineInteractor(worker)
         return new CusinePresenter(interactor, new CusineCauroselViewModelMapper())
     }
-    configureDishPresenter(): AbstractDishListPresenter {
+
+    private static configureDishPresenter(): AbstractDishListPresenter {
         const worker: AbstractDishListWorker = new DishListWorker()
         const interactor: AbstractDishListInteractor = new DishListInteractor(worker)
         return new DishListPresenter(interactor)
     }
-    presenter(): AbstractHomePagePresenter {
-            const homePageStore: AbstractHomePageStore = new HomePageStore()
-            const dishListPresenter: AbstractDishListPresenter = this.configureDishPresenter()
-            const cuisinePresenter: AbstractCusinesPresenter = this.configureCusinePresenter()
-            return new HomePagePresenter(homePageStore,
-                cuisinePresenter,
-                dishListPresenter)
+
+    private static configureHomePresenter(homePageStore: AbstractHomePageStore): AbstractHomePagePresenter {
+        const dishListPresenter: AbstractDishListPresenter = this.configureDishPresenter()
+        const cuisinePresenter: AbstractCusinesPresenter = this.configureCusinePresenter()
+        return new HomePagePresenter(homePageStore,
+            cuisinePresenter,
+            dishListPresenter)
     }
 }
 
-export default HomePageConfigurator
+export {HomePageConfigurator, HomePagePresenterCompletion}
+

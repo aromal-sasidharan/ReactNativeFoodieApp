@@ -2,7 +2,7 @@ import {AbstractCuisine} from "app/domain/Entities/Cusine";
 
 
 interface AbstractCusineCauroselViewModel {
-    image?:string
+    image?: string
     name?: string
 }
 
@@ -13,7 +13,7 @@ class HomeCuisineCauroselViewModel implements AbstractCusineCauroselViewModel {
     entity?: AbstractCuisine
 }
 
-export  {
+export {
     AbstractCusineCauroselViewModel,
     HomeCuisineCauroselViewModel
 }

@@ -8,6 +8,7 @@ interface AbstractHomePageStore {
     isCusinesLoading: boolean
     dishes: AbstractDish[]
     cusines: AbstractCusineCauroselViewModel[]
+
     setCusines(value: AbstractCusineCauroselViewModel[]): void;
 
     setDishes(value: AbstractDish[]): void;
@@ -45,7 +46,6 @@ class HomePageStore implements AbstractHomePageStore {
     }
 
 }
-
 
 
 export {AbstractHomePageStore, HomePageStore}
