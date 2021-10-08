@@ -1,4 +1,4 @@
-import {BehaviorSubject, Observable, queueScheduler, Subject, Subscription} from "rxjs"
+import {BehaviorSubject, Observable, Subject, Subscription} from "rxjs"
 
 import {
     AbstractDishListInteractor,
@@ -8,7 +8,7 @@ import {
 } from "app/domain/UseCases/HomePage/CusineListUseCase";
 
 import {AbstractCuisine, AbstractDish} from "app/domain/Entities/Cusine";
-import {map, subscribeOn, tap} from "rxjs/operators";
+import {map} from "rxjs/operators";
 
 
 class DishListInteractor implements AbstractDishListInteractor {
@@ -17,6 +17,7 @@ class DishListInteractor implements AbstractDishListInteractor {
     dishesSubject: BehaviorSubject<AbstractDish[]> = new BehaviorSubject<AbstractDish[]>([])
     errorSubject: Subject<Error> = new Subject()
     disposable?: Subscription
+
     constructor(worker: AbstractDishListWorker) {
         this.worker = worker
     }
@@ -26,16 +27,15 @@ class DishListInteractor implements AbstractDishListInteractor {
             this.dishesSubject.next([])
             return
         }
-            this.disposable?.unsubscribe()
-            this.disposable = this.worker.dishesForCusineId(cusine.id)
-                .pipe(
-                    map(value => value?.dishes ?? []),
+        this.disposable?.unsubscribe()
+        this.disposable = this.worker.dishesForCusineId(cusine.id)
+            .pipe(
+                map(value => value?.dishes ?? []),
+            )
+            .subscribe({
+                next: value => this.dishesSubject.next(value),
 
-                )
-                .subscribe({
-                    next: value => this.dishesSubject.next(value),
-            
-                })
+            })
     }
 
     onError(): Observable<Error> {
@@ -53,6 +53,7 @@ class DishListPresenter implements AbstractDishListPresenter {
     interactor?: AbstractDishListInteractor
     output?: AbstractDishListPresenterOutput
     subscription?: Subscription
+
     constructor(interactor: AbstractDishListInteractor) {
         this.interactor = interactor
         this.setupSubsriber()
@@ -62,11 +63,13 @@ class DishListPresenter implements AbstractDishListPresenter {
         this.subscription = new Subscription()
         const sb1 = this.interactor?.onLoadDishes()
             .subscribe({
-                next:value => {this.output?.onLoadDishes(value ?? [])}
+                    next: value => {
+                        this.output?.onLoadDishes(value ?? [])
+                    }
                 }
             )
         this.subscription?.add(
-           sb1
+            sb1
         )
     }
 

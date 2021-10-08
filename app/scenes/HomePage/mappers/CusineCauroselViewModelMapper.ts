@@ -6,18 +6,19 @@ import {
 import {AbstractCuisine} from "app/domain/Entities/Cusine";
 
 
-class CusineCauroselViewModelMapper implements AbstractHomeCuisineCauroselViewModelMapper{
+class CusineCauroselViewModelMapper implements AbstractHomeCuisineCauroselViewModelMapper {
     mapAllAbstractCuisineToViewModel(entities: AbstractCuisine[]): AbstractCusineCauroselViewModel[] {
-        let models: (AbstractCusineCauroselViewModel|null)[] = entities.map(this.mapCuisineToViewModel())
+        let models: (AbstractCusineCauroselViewModel | null)[] = entities.map(this.mapCuisineToViewModel())
         let models2 = models.reduce((previousValue, currentValue) => {
             if (currentValue)
                 previousValue.push(currentValue)
             return previousValue
-        },new Array<AbstractCusineCauroselViewModel>())
+        }, new Array<AbstractCusineCauroselViewModel>())
         return models2
     }
-    mapCuisineToViewModel() : ((value: AbstractCuisine)
-        => (AbstractCusineCauroselViewModel | null) ){
+
+    mapCuisineToViewModel(): ((value: AbstractCuisine)
+        => (AbstractCusineCauroselViewModel | null)) {
         return (value) => {
             if (value.id) {
                 let model = new HomeCuisineCauroselViewModel()
@@ -26,8 +27,9 @@ class CusineCauroselViewModelMapper implements AbstractHomeCuisineCauroselViewMo
                 model.image = value.imageUrl
                 return model
             }
-            return  null
+            return null
         }
     }
 }
+
 export default CusineCauroselViewModelMapper

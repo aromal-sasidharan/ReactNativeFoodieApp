@@ -1,14 +1,13 @@
-import { AbstractCuisine } from "app/domain/Entities/Cusine";
+import {AbstractCuisine} from "app/domain/Entities/Cusine";
 import {
     AbstractCusinesInteractor,
     AbstractCusinesPresenter,
     AbstractCusinesPresenterOutput,
     AbstractCusinesWorker
 } from "app/domain/UseCases/HomePage/CusineListUseCase";
-import { AbstractHomeCuisineCauroselViewModelMapper } from "app/domain/UseCases/HomePage/ViewModels/HomeCuisineCauroselViewModelMapper";
-import { BehaviorSubject, Observable, Subject, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
-
+import {AbstractHomeCuisineCauroselViewModelMapper} from "app/domain/UseCases/HomePage/ViewModels/HomeCuisineCauroselViewModelMapper";
+import {BehaviorSubject, Observable, Subject, Subscription} from "rxjs";
+import {map} from "rxjs/operators";
 
 
 class CusineInteractor implements AbstractCusinesInteractor {
@@ -16,6 +15,7 @@ class CusineInteractor implements AbstractCusinesInteractor {
     disposable?: Subscription
     cusinesSubject: BehaviorSubject<AbstractCuisine[]> = new BehaviorSubject<AbstractCuisine[]>([])
     errorSubject: Subject<Error> = new Subject()
+
     constructor(worker: AbstractCusinesWorker) {
         this.worker = worker
     }
@@ -23,11 +23,13 @@ class CusineInteractor implements AbstractCusinesInteractor {
     loadAllCusines(): void {
         this.disposable?.unsubscribe()
         this.disposable =
-        this.worker.allCusines()
-            .subscribe({
-                next:value => {this.cusinesSubject.next(value ?? [])},
-                error:err => this.errorSubject.next(err)
-            })
+            this.worker.allCusines()
+                .subscribe({
+                    next: value => {
+                        this.cusinesSubject.next(value ?? [])
+                    },
+                    error: err => this.errorSubject.next(err)
+                })
     }
 
     onError(): Observable<Error> {
@@ -43,7 +45,8 @@ class CusinePresenter implements AbstractCusinesPresenter {
     interactor: AbstractCusinesInteractor
     output?: AbstractCusinesPresenterOutput
     subscription?: Subscription
-    mapper?:AbstractHomeCuisineCauroselViewModelMapper
+    mapper?: AbstractHomeCuisineCauroselViewModelMapper
+
     constructor(interactor: AbstractCusinesInteractor, mapper: AbstractHomeCuisineCauroselViewModelMapper) {
         this.interactor = interactor
         this.mapper = mapper
@@ -64,9 +67,11 @@ class CusinePresenter implements AbstractCusinesPresenter {
             sb1
         )
     }
+
     loadAllCusines(): void {
         this.interactor.loadAllCusines()
     }
-   
+
 }
-export { CusinePresenter, CusineInteractor };
+
+export {CusinePresenter, CusineInteractor};
